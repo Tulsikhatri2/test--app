@@ -25,3 +25,14 @@ body {
     text-wrap: balance;
   }
 }
+
+.input-err {
+  border: 1px solid red;
+ }
+ 
+ .error {
+   color: rgb(238, 114, 114);
+   font-size: 0.8rem;
+   margin-top: -1vh;
+ } 
+

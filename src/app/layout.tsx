@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { CopilotKit } from "@copilotkit/react-core";
+import "@copilotkit/react-ui/styles.css";
+import StoreProvider from "./storeProvider";
+import  "../app/components/loader/loading.css"
+import { Toaster } from "react-hot-toast";
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,7 +34,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <Toaster position="top-center" />
+        <StoreProvider>
+          <CopilotKit runtimeUrl="/api/copilotkit">{children}</CopilotKit>
+        </StoreProvider>
       </body>
     </html>
   );
