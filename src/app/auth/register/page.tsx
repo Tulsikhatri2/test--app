@@ -2,17 +2,18 @@
 
 import Image from "next/image";
 import background from "../../../assets/background-image.jpeg";
-import React, { useState } from "react";
+import React from "react";
 import { ErrorMessage, Field, Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, AppStore } from "@/Redux/store";
-import { registerUser } from "@/Redux/Slice/registerSlice";
+import {
+  emailVerificationProcess,
+  registerUser,
+} from "@/Redux/Slice/registerSlice";
 import toast from "react-hot-toast";
-import EmailVerification from "@/app/components/emailVerification/[id]/page";
-import { duration } from "@mui/material";
-import style from "styled-jsx/style";
+import Loading from "@/app/components/loader/loading";
 
 interface Values {
   name: string;
@@ -35,9 +36,10 @@ const validationSchema = yup.object({
 const Register = () => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  const {registerData} = useSelector((state:AppStore) => state.register)
-  const [open, setOpen] = useState<boolean>(false);
-  console.log(registerData,"from register")
+  const { registerData, isLoading } = useSelector(
+    (state: AppStore) => state.register
+  );
+  console.log(registerData, "from register");
 
   const values: Values = {
     name: "",
@@ -45,13 +47,16 @@ const Register = () => {
     password: "",
   };
 
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+  const handleEmailVerification = () => {
+    const verificationData = {
+      id: registerData.id,
+      token: registerData.emailVerificationTOken,
+    };
+    dispatch(emailVerificationProcess(verificationData)).then((res: any) => {
+      if (res.payload?.status == "200") {
+        router.push("/auth/login");
+      }
+    });
   };
 
   const handleSubmit = (
@@ -59,29 +64,35 @@ const Register = () => {
     { setSubmitting }: FormikHelpers<Values>
   ) => {
     console.log(values);
-    dispatch(registerUser(values)).then((res: any)=>{
-        if(res.payload?.status == "200"){
-            toast.success("Registered Successfully!")
-            return (
-                <>
-            <span style={{ width: "20vw" }}>
-        <b>Are you sure you want to delete this user?</b>
-        <br />
-        <button
-          className="dismissButton"
-          onClick={() => toast.dismiss(t.id)}
-        >
-          Dismiss
-        </button>
-        <button
-          className="deleteButton">
-          Delete
-        </button>
-      </span>
-      </>)
-
-            // return <EmailVerification handleClose={handleClose} open={open}/>
-            // // router.push("/auth/register/emailVerification")
+    dispatch(registerUser(values)).then((res: any) => {
+      if (res.payload?.status == "200") {
+        toast(
+          (t) => (
+            <span style={{ width: "30vw" }} className="font-mono">
+              <b>Verify your email to complete registration process</b>
+              <br />
+              <button
+                className="dismissButton  "
+                onClick={() => toast.dismiss(t.id)}
+              >
+                Dismiss
+              </button>
+              <button
+                className="verifyButton hover:shadow-black hover:shadow-md"
+                onClick={() => {
+                  handleEmailVerification();
+                  toast.dismiss(t.id);
+                }}
+              >
+                Verify
+              </button>
+            </span>
+          ),
+          {
+            duration: 15000,
+          }
+        );
+      }
     });
     setSubmitting(false);
   };
@@ -155,11 +166,7 @@ const Register = () => {
                   >
                     Register
                   </button>
-                  {/* {
-                  isLoading?
-                  <Loading/>:
-                  <p></p>
-                } */}
+                  {isLoading ? <Loading /> : <p></p>}
                 </form>
               )}
             </Formik>

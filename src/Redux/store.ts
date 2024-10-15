@@ -5,11 +5,12 @@ import loginReducer from "./Slice/loginSlice"
 import registerReducer from "./Slice/registerSlice"
 import { persistReducer, persistStore } from "redux-persist";
 import storage from 'redux-persist/lib/storage'
-import reducer from "./Slice/loginSlice";
+import graphReducer from "./Slice/graphSlice"
 
 const rootReducer = combineReducers({
     login : loginReducer,
-    register : registerReducer
+    register : registerReducer,
+    graph : graphReducer
 })
 
 const persistConfig = {
