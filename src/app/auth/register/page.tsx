@@ -39,7 +39,6 @@ const Register = () => {
   const { registerData, isLoading } = useSelector(
     (state: AppStore) => state.register
   );
-  console.log(registerData, "from register");
 
   const values: Values = {
     name: "",
@@ -63,7 +62,6 @@ const Register = () => {
     values: Values,
     { setSubmitting }: FormikHelpers<Values>
   ) => {
-    console.log(values);
     dispatch(registerUser(values)).then((res: any) => {
       if (res.payload?.status == "200") {
         toast(

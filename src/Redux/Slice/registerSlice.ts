@@ -67,48 +67,41 @@ const registerSlice = createSlice({
 
 export const registerUser = createAsyncThunk(
   "REGISTER/USER",
-  async (registerUserData: any) => {
+  async (registerUserData: any, { rejectWithValue }) => {
     try {
-      const response = axios.post(
+      const response = await axios.post(
         "https://node-js-wse4.onrender.com/user",
         registerUserData
       );
-      toast.promise(
-        response,
-        {
-          loading: "Loading...",
-          success:"Registered User",
-          error: "Error while registration !!",
-        },
-        { success: { duration: 2000 } },
-      );
       return response;
-    } catch (error:any) {
-      toast.error("This didn't work.")
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || error.message, {
+        duration: 2000,
+      });
+      return rejectWithValue(error?.response);
     }
   }
 );
 
 export const emailVerificationProcess = createAsyncThunk(
   "EMAIL/VERIFICATION/PROCESS",
-  async (verificationData: { id: string; token: string }) => {
+  async (
+    verificationData: { id: string; token: string },
+    { rejectWithValue }
+  ) => {
     try {
       const { id, token } = verificationData;
-      const response = axios.get(
+      const response = await axios.get(
         `https://node-js-wse4.onrender.com/user/email/verification?token=${token}&userId=${id}`
       );
-      toast.promise(
-        response,
-        {
-          loading: "Loading...",
-          success: "Email Verified!!",
-          error: "Error!!",
-        }
-      );
       return response;
-    } catch (error:any) {
-      toast.error("This didn't work.")
-  }}
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || error.message, {
+        duration: 2000,
+      });
+      return rejectWithValue(error?.response);
+    }
+  }
 );
 
 export default registerSlice.reducer;

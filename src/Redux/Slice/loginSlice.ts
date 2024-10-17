@@ -24,7 +24,7 @@ const loginSlice = createSlice({
     reducers:{},
     extraReducers:builder=>{
         builder
-        .addCase(LoginUser.pending,(state)=>{
+        .addCase(LoginUser.pending,(state,action)=>{
             state.isLoading = true
             state.isSuccess = false
             state.isError = false
@@ -36,7 +36,7 @@ const loginSlice = createSlice({
             state.loginData = action.payload?.data.data
             localStorage.setItem("token",action.payload?.data.data.token)
         })
-        .addCase(LoginUser.rejected,(state)=>{
+        .addCase(LoginUser.rejected,(state,action)=>{
             state.isLoading = false
             state.isSuccess = false
             state.isError = true
@@ -46,13 +46,15 @@ const loginSlice = createSlice({
 
 export const LoginUser = createAsyncThunk(
     "USER/LOGIN",
-    async (userData: any) => {
+    async (userData: any,{ rejectWithValue }) => {
         try {
-            const response = axios.post("https://node-js-wse4.onrender.com/user/login", userData)
+            const response = await axios.post("https://node-js-wse4.onrender.com/user/login", userData)
             return response
         } catch (error: any) {
-            console.log(error, "error from slice")
-            // toast.error(error.response?.data?.message || error.message,{duration: 2000})
+            console.log( "error from slice",error)
+            toast.error(error.response?.data?.message || error.message,{duration: 2000})
+            return rejectWithValue(error?.response)
+            // throw error            // 
         }
     }
 )

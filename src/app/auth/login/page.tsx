@@ -39,18 +39,12 @@ const Login = () => {
     { setSubmitting }: FormikHelpers<Values>
   ) => {
     dispatch(LoginUser(values))
-    .unwrap()
     .then((res: any)=>{
-      console.log(3333,res)
-      // if(res.payload?.status == "200"){
-      //   toast.success("Logged in.!")
-      //   router.push("/dashboard")
-      // }
+      if(res.payload?.status == "200"){
+        toast.success("Logged in.!")
+        router.push("/dashboard")
+      }
     })
-    // .catch((error)=>{
-    //   console.log(7777,error)
-    //   toast.error("Login Error",{duration: 2000})
-    // })
     setSubmitting(false);
    
   };
