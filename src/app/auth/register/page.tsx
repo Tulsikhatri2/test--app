@@ -6,12 +6,6 @@ import React from "react";
 import { ErrorMessage, Field, Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, AppStore } from "@/Redux/store";
-import {
-  emailVerificationProcess,
-  registerUser,
-} from "@/Redux/Slice/registerSlice";
 import toast from "react-hot-toast";
 import Loading from "@/app/components/loader/loading";
 
@@ -35,10 +29,6 @@ const validationSchema = yup.object({
 
 const Register = () => {
   const router = useRouter();
-  const dispatch = useDispatch<AppDispatch>();
-  const { registerData, isLoading } = useSelector(
-    (state: AppStore) => state.register
-  );
 
   const values: Values = {
     name: "",
@@ -47,51 +37,40 @@ const Register = () => {
   };
 
   const handleEmailVerification = () => {
-    const verificationData = {
-      id: registerData.id,
-      token: registerData.emailVerificationTOken,
-    };
-    dispatch(emailVerificationProcess(verificationData)).then((res: any) => {
-      if (res.payload?.status == "200") {
-        router.push("/auth/login");
-      }
-    });
+    router.push("/auth/login");
+    toast.success("Email Verified!..Login as admin")
   };
 
   const handleSubmit = (
     values: Values,
     { setSubmitting }: FormikHelpers<Values>
   ) => {
-    dispatch(registerUser(values)).then((res: any) => {
-      if (res.payload?.status == "200") {
-        toast(
-          (t) => (
-            <span style={{ width: "30vw" }} className="font-mono">
-              <b>Verify your email to complete registration process</b>
-              <br />
-              <button
-                className="dismissButton  "
-                onClick={() => toast.dismiss(t.id)}
-              >
-                Dismiss
-              </button>
-              <button
-                className="verifyButton hover:shadow-black hover:shadow-md"
-                onClick={() => {
-                  handleEmailVerification();
-                  toast.dismiss(t.id);
-                }}
-              >
-                Verify
-              </button>
-            </span>
-          ),
-          {
-            duration: 15000,
-          }
-        );
-      }
-    });
+    toast(
+            (t) => (
+              <span style={{ width: "30vw" }} className="font-mono">
+                <b>Verify your email to complete registration process</b>
+                <br />
+                <button
+                  className="dismissButton  "
+                  onClick={() => toast.dismiss(t.id)}
+                >
+                  Dismiss
+                </button>
+                <button
+                  className="verifyButton hover:shadow-black hover:shadow-md"
+                  onClick={() => {
+                    handleEmailVerification();
+                    toast.dismiss(t.id);
+                  }}
+                >
+                  Verify
+                </button>
+              </span>
+            ),
+            {
+              duration: 15000,
+            }
+          );
     setSubmitting(false);
   };
 
@@ -164,7 +143,7 @@ const Register = () => {
                   >
                     Register
                   </button>
-                  {isLoading ? <Loading /> : <p></p>}
+                  {/* {isLoading ? <Loading /> : <p></p>} */}
                 </form>
               )}
             </Formik>

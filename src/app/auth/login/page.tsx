@@ -1,14 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React from "react";
 import background from "../../../assets/background-image.jpeg";
 import { useRouter } from "next/navigation";
 import * as yup from "yup";
 import { ErrorMessage, Field, Formik, FormikHelpers } from "formik";
-import { useDispatch, useSelector } from "react-redux";
-import { LoginUser } from "@/Redux/Slice/loginSlice";
-import { AppDispatch, AppStore } from "@/Redux/store";
 import toast from "react-hot-toast";
 import Loading from "@/app/components/loader/loading";
 
@@ -30,30 +27,23 @@ const validationSchema = yup.object({
 
 const Login = () => {
   const router = useRouter();
-  const dispatch = useDispatch<AppDispatch>()
-  const {isLoading} = useSelector((state: AppStore)=>state.login)
-  const token = localStorage.getItem("token")
 
   const handleSubmit = (
     values: Values,
     { setSubmitting }: FormikHelpers<Values>
   ) => {
-    dispatch(LoginUser(values))
-    .then((res: any)=>{
-      if(res.payload?.status == "200"){
-        toast.success("Logged in.!")
-        router.push("/dashboard")
-      }
-    })
+    if(values.email == "admin@gmail.com" && values.password == "123456" ){
+      const random = Math.random().toString(36).substring(2);
+      localStorage.setItem("token", random + random + random + random)
+      toast.success("Logged in!")
+      router.push("/dashboard")
+    }
+    else{
+      toast.error("Invalid username or password")
+    }
     setSubmitting(false);
    
   };
-
-  useEffect(()=>{
-    if(!token || token == "undefined"){
-      router.push("/auth/login")
-    }
-  },[token])
 
   const values: Values = {
     email: "",
@@ -116,11 +106,11 @@ const Login = () => {
                 >
                   Login
                 </button>
-                {
+                {/* {
                   isLoading?
                   <Loading/>:
                   <p></p>
-                }
+                } */}
               </form>
             )}
           </Formik>

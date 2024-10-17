@@ -35,7 +35,10 @@ const LogoutButton = () => {
           </span>
         ),{
           style:{
-            marginTop:"15vh",
+            marginTop:"7vh",
+            fontFamily:"monospace",
+            fontWeight:"bold",
+            fontSize:"2.4vh"
           }
         });
       };

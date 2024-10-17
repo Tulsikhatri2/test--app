@@ -8,6 +8,7 @@ import LogoutButton from "../components/Logout/Logout";
 import { useSelector } from "react-redux";
 import { AppStore } from "@/Redux/store";
 import BarChart from "../components/BarChart/BarChart";
+import Cards from "../components/DataCard/Cards";
 
 const Dashboard = () => {
   const [lineChartOpen, setLineChartOpen] = React.useState<boolean>(false);
@@ -48,26 +49,7 @@ const Dashboard = () => {
             lineChartOpen={lineChartOpen}
           />
           <div className="w-[100%] h-[50%] flex items-center justify-center">
-            <div className="w-[100%]  flex flex-wrap flex-row items-center justify-between mt-8 mb-5">
-              {lineChart.map((item) => {
-                return (
-                  <>
-                    <div
-                      className="w-[30%] h-[20vh]  bg-stone-300 rounded-xl ml-10 shadow-black shadow-lg
-                 flex flex-col items-center justify-center mt-5"
-                    >
-                      <h3 className="text-red-600 font-bold">
-                        PRODUCT ID : {item.productID}
-                      </h3>
-                      <p className="font-bold">Cost Price : {item.costPrice}</p>
-                      <p className="font-bold">
-                        Selling Price : {item.sellingPrice}
-                      </p>
-                    </div>
-                  </>
-                );
-              })}
-            </div>
+            <Cards />
           </div>
         </div>
         <LogoutButton />
