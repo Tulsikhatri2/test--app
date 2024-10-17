@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import * as yup from "yup";
 import { ErrorMessage, Field, Formik, FormikHelpers } from "formik";
 import toast from "react-hot-toast";
-import Loading from "@/app/components/loader/loading";
+// import Loading from "@/app/components/loader/loading";
 
 interface Values {
   email: string;

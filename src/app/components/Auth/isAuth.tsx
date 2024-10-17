@@ -24,7 +24,7 @@ const Layout = ({
         router.push(pathName);
       }
     }
-  }, [token, pathName]);
+  }, [token, pathName,publicRoutes,router]);
 
   return <div>{children}</div>;
 };

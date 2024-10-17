@@ -26,20 +26,19 @@ const graphSlice = createSlice({
   reducers: {
     addLineChartData: (state, action) => {
       const array = [...state.lineChart];
-      let findRow = array.filter(
+      const findRow = array.filter(
         (item) => item.productID == action.payload.productID
       );
       const { productID, costPrice, sellingPrice } = action.payload;
       if (findRow.length > 0) {
-        const info = array.map((data) =>
+        const newArray = array.map((data) =>
           data.productID == productID
             ? { ...data, costPrice, sellingPrice }
             : data
         );
-        console.log(info, "info");
         return {
           ...state,
-          lineChart: info,
+          lineChart: newArray,
         };
       } else {
         return {

@@ -8,7 +8,7 @@ const Cards = () => {
   return (
     <>
       <div className="w-[100%]  flex flex-wrap flex-row items-center justify-between mt-8 mb-5">
-        {lineChart.map((item: any) => {
+        {lineChart.map((item: {productID : string, costPrice: string, sellingPrice: string}) => {
           return (
             <>
               <div
