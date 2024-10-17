@@ -3,7 +3,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import loginReducer from "./Slice/loginSlice"
 import registerReducer from "./Slice/registerSlice"
-import { persistReducer, persistStore } from "redux-persist";
+import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "redux-persist";
 import storage from 'redux-persist/lib/storage'
 import graphReducer from "./Slice/graphSlice"
 
@@ -18,9 +18,21 @@ const persistConfig = {
     storage
 }
 
+// const middleWare = 
+
+// const customizedMiddleware = getDefaultMiddleware({
+//     serializableCheck: false
+//   })
+
 const persistedReducer = persistReducer(persistConfig,rootReducer)
 
-export const store = configureStore({reducer : persistedReducer});
+export const store = configureStore({
+    reducer : persistedReducer,
+    middleware: getDefaultMiddleware =>
+        getDefaultMiddleware({
+          serializableCheck: false,
+        }),
+});
 export const persistor = persistStore(store);
 
 export type AppStore = ReturnType<typeof store.getState>

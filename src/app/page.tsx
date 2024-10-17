@@ -1,17 +1,14 @@
 "use client";
 
-import { CopilotPopup } from "@copilotkit/react-ui";
 import Image from "next/image";
 import background from "../assets/background-image.jpeg";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
-  console.log(process.env.OPENAI_API_KEY, ": api key");
   return (
     <>
       <div>
-        {" "}
         <div className="relative w-[100vw] h-[100vh] flex flex-row justify-end font-mono">
           <Image
             src={background}

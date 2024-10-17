@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import background from "../../../assets/background-image.jpeg";
 import { useRouter } from "next/navigation";
 import * as yup from "yup";
@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LoginUser } from "@/Redux/Slice/loginSlice";
 import { AppDispatch, AppStore } from "@/Redux/store";
 import toast from "react-hot-toast";
+import Loading from "@/app/components/loader/loading";
 
 interface Values {
   email: string;
@@ -31,21 +32,34 @@ const Login = () => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>()
   const {isLoading} = useSelector((state: AppStore)=>state.login)
-  console.log(isLoading,"loading")
+  const token = localStorage.getItem("token")
+
   const handleSubmit = (
     values: Values,
     { setSubmitting }: FormikHelpers<Values>
   ) => {
     dispatch(LoginUser(values))
+    .unwrap()
     .then((res: any)=>{
-      if(res.payload?.status == "200"){
-        toast.success("Logged in.!")
-        router.push("/dashboard")
-      }
+      console.log(3333,res)
+      // if(res.payload?.status == "200"){
+      //   toast.success("Logged in.!")
+      //   router.push("/dashboard")
+      // }
     })
+    // .catch((error)=>{
+    //   console.log(7777,error)
+    //   toast.error("Login Error",{duration: 2000})
+    // })
     setSubmitting(false);
    
   };
+
+  useEffect(()=>{
+    if(!token || token == "undefined"){
+      router.push("/auth/login")
+    }
+  },[token])
 
   const values: Values = {
     email: "",
@@ -132,8 +146,5 @@ const Login = () => {
 };
 
 export default Login;
-import layout from "@/app/layout";
-import { log } from "console";
-import src from "openai/src/index.js";
-import { type } from "os";import Loading from "@/app/components/loader/loading";
+
 

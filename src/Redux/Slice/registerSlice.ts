@@ -29,7 +29,7 @@ const registerSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(registerUser.pending, (state, action) => {
+      .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
         state.isSuccess = false;
         state.isError = false;
@@ -41,12 +41,12 @@ const registerSlice = createSlice({
         state.isError = false;
         state.registerData = action.payload?.data.data;
       })
-      .addCase(registerUser.rejected, (state, action) => {
+      .addCase(registerUser.rejected, (state) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.isError = true;
       })
-      .addCase(emailVerificationProcess.pending, (state, action) => {
+      .addCase(emailVerificationProcess.pending, (state) => {
         state.isVerificationLoading = true;
         state.isVerificationSuccess = false;
         state.isVerificationError = false;
@@ -57,7 +57,7 @@ const registerSlice = createSlice({
         state.isVerificationSuccess = true;
         state.isVerificationError = false;
       })
-      .addCase(emailVerificationProcess.rejected, (state, action) => {
+      .addCase(emailVerificationProcess.rejected, (state) => {
         state.isVerificationLoading = false;
         state.isVerificationSuccess = false;
         state.isVerificationError = true;
@@ -83,8 +83,8 @@ export const registerUser = createAsyncThunk(
         { success: { duration: 2000 } },
       );
       return response;
-    } catch (error) {
-        console.log(error)
+    } catch (error:any) {
+      toast.error("This didn't work.")
     }
   }
 );
@@ -106,10 +106,9 @@ export const emailVerificationProcess = createAsyncThunk(
         }
       );
       return response;
-    } catch (error) {
-        console.log(error)
-    }
-  }
+    } catch (error:any) {
+      toast.error("This didn't work.")
+  }}
 );
 
 export default registerSlice.reducer;

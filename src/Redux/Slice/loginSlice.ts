@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 interface InitialState{
     loginData : any,
@@ -23,7 +24,7 @@ const loginSlice = createSlice({
     reducers:{},
     extraReducers:builder=>{
         builder
-        .addCase(LoginUser.pending,(state,action)=>{
+        .addCase(LoginUser.pending,(state)=>{
             state.isLoading = true
             state.isSuccess = false
             state.isError = false
@@ -35,7 +36,7 @@ const loginSlice = createSlice({
             state.loginData = action.payload?.data.data
             localStorage.setItem("token",action.payload?.data.data.token)
         })
-        .addCase(LoginUser.rejected,(state,action)=>{
+        .addCase(LoginUser.rejected,(state)=>{
             state.isLoading = false
             state.isSuccess = false
             state.isError = true
@@ -48,11 +49,10 @@ export const LoginUser = createAsyncThunk(
     async (userData: any) => {
         try {
             const response = axios.post("https://node-js-wse4.onrender.com/user/login", userData)
-            // toast.success('Logged in!')
-            console.log(response)
             return response
-        } catch (error) {
-            
+        } catch (error: any) {
+            console.log(error, "error from slice")
+            // toast.error(error.response?.data?.message || error.message,{duration: 2000})
         }
     }
 )

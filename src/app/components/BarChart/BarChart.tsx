@@ -1,58 +1,55 @@
-import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import React from "react";
-import { useSelector } from "react-redux";
-import { AppStore } from "@/Redux/store";
+import React from 'react';
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const BarChart: React.FC = () => {
-  const { barChart } = useSelector((state: AppStore) => state.graph);
-  const chartData = {
-    labels: barChart.map((item: any) => item.name),
-    datasets: [
-      {
-        label: "Target",
-        data: barChart.map((item) => parseInt(item.target)),
-        backgroundColor: "gray",
-      },
-      {
-        label: "Achievement",
-        data: barChart.map((item) => parseInt(item.achievement)),
-        backgroundColor: "black",
-      },
-    ],
-  };
+interface SalesData {
+    productID: string;
+    costPrice: string;
+    sellingPrice: string;
+}
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top" as const,
-      },
-      title: {
-        display: true,
-        text: "Target vs Achievement",
-      },
-    },
-  };
+interface BarChartProps {
+    data: SalesData[];
+}
 
-  return <Bar data={chartData} options={options} />;
+const BarChart: React.FC<BarChartProps> = ({ data }) => {
+    const labels = data.map(item => item.productID);
+    const costPrices = data.map(item => item.costPrice);
+    const sellingPrices = data.map(item => item.sellingPrice);
+
+    const chartData = {
+        labels: labels,
+        datasets: [
+            {
+                label: 'Cost Price',
+                data: costPrices,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            },
+            {
+                label: 'Selling Price',
+                data: sellingPrices,
+                backgroundColor: 'rgba(255, 159, 64, 0.6)',
+            },
+        ],
+    };
+
+    const options = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top' as const,
+            },
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+            },
+        },
+    };
+
+    return <Bar data={chartData} options={options} />;
 };
 
 export default BarChart;

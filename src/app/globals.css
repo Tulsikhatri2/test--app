@@ -83,5 +83,13 @@ body {
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }
+.deleteButton{
+  background-color: maroon;
+  color: white;
+  padding: 1vh;
+  border-radius: 1vh;
+  margin-left: 1.3vw;
+  border: 1px solid black;
+}
 
 
