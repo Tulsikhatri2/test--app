@@ -25,20 +25,30 @@ ChartJS.register(
 
 const LineChart = () => {
   const { lineChart} = useSelector((state: AppStore) => state.graph);
-  const labels = lineChart.map((data) => `Product ${data.productID}`);
-  const margins = lineChart.map((data) => parseInt(data.margin));
+  const labels = lineChart.map((data) => parseInt(data.productID));
+  // const margins = lineChart.map((data) => parseInt(data.margin));
+  const costPrice = lineChart.map((data)=>parseInt(data.costPrice));
+  const sellingPrice = lineChart.map((data)=>parseInt(data.sellingPrice))
 
   const data = {
     labels: labels,
     datasets: [
       {
-        label: "Profit Margin",
-        data: margins,
-        borderColor: "rgba(75, 192, 192, 1)",
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        label: "Cost Price",
+        data: costPrice,
+        borderColor: "rgba(75, 192, 192, 0.6)",
+        backgroundColor: "rgba(75, 192, 192, 0.6)",
         fill: true,
-        tension: 0.4,
+        tension: 0.4
       },
+      {
+        label: "Selling Price",
+        data: sellingPrice,
+        borderColor: "rgba(255, 159, 64, 0.6)",
+        backgroundColor: "rgba(255, 159, 64, 0.6)",
+        fill: true,
+        tension: 0.4
+      }
     ],
   };
 

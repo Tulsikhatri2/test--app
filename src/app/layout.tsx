@@ -6,6 +6,7 @@ import "@copilotkit/react-ui/styles.css";
 import StoreProvider from "./storeProvider";
 import  "../app/components/loader/loading.css"
 import { Toaster } from "react-hot-toast";
+import Layout from "./components/Auth/isAuth";
 
 
 const geistSans = localFont({
@@ -36,7 +37,11 @@ export default function RootLayout({
       >
         <Toaster position="top-right" />
         <StoreProvider>
-          <CopilotKit runtimeUrl="/api/copilotkit">{children}</CopilotKit>
+          <CopilotKit runtimeUrl="/api/copilotkit">
+          <Layout>
+          {children}
+          </Layout>
+          </CopilotKit>
         </StoreProvider>
       </body>
     </html>

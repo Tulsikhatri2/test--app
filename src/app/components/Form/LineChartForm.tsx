@@ -1,17 +1,44 @@
-import { Dialog, DialogContent } from '@mui/material'
-import React, { useState } from 'react'
-
+import { addLineChartData } from "@/Redux/Slice/graphSlice";
+import { AppDispatch } from "@/Redux/store";
+import { Dialog, DialogContent } from "@mui/material";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 
 interface LineChartFormProps {
   handleLineChartDataClose: () => void;
   lineChartOpen: boolean;
 }
 
-const LineChartForm: React.FC<LineChartFormProps> = ({ handleLineChartDataClose, lineChartOpen })=> {
+const LineChartForm: React.FC<LineChartFormProps> = ({
+  handleLineChartDataClose,
+  lineChartOpen,
+}) => {
+  const [productID, setProductID] = useState<string>("")
+  const [costPrice, setCostPrice] = useState<string>("");
+  const [sellingPrice, setSellingPrice] = useState<string>("");
+  const dispatch = useDispatch<AppDispatch>();
 
-  const [costPrice, setCostPrice] = useState<string>("")
-  const [sellingPrice, setSellingPrice] = useState<string>("")
-  
+  const handleSubmitChartData = () => {
+    if(!productID || !costPrice || !sellingPrice){
+      toast.error("All fields are mandatory")
+    }
+    else{
+      const salesData = {
+        productID: productID,
+        costPrice: costPrice,
+        sellingPrice: sellingPrice,
+      };
+      dispatch(addLineChartData(salesData));
+      setProductID("")
+      setCostPrice("")
+      setSellingPrice("")
+      handleLineChartDataClose()
+
+    }
+    
+  };
+
   return (
     <div>
       <Dialog
@@ -22,45 +49,49 @@ const LineChartForm: React.FC<LineChartFormProps> = ({ handleLineChartDataClose,
         className="font-mono"
       >
         <p className="font-bold text-center mt-5 text-xl underline">
-          {"Sales Data"}
+          Sales Data
         </p>
         <DialogContent>
           <form>
-            <input
+          <input
               className="bg-neutral-700	text-white text-sm rounded-3xl block p-2.5 w-64 m-3 "
               type="text"
-              placeholder="Name"
-              name="name"
-              
+              placeholder="Product ID"
+              name="costPrice"
+              value={productID}
+              onChange={(e) => setProductID(e.target.value)}
             />
             <input
               className="bg-neutral-700	text-white text-sm rounded-3xl block p-2.5 w-64 m-3 "
               type="text"
-              placeholder="Target"
-              name="target"
-              
+              placeholder="Cost Price"
+              name="costPrice"
+              value={costPrice}
+              onChange={(e) => setCostPrice(e.target.value)}
             />
             <input
               className="bg-neutral-700	text-white text-sm rounded-3xl block p-2.5 w-64 m-3 "
               type="text"
-              placeholder="Achievement"
-              name="achievement"
-              
+              placeholder="Selling Price"
+              name="sellingPrice"
+              value={sellingPrice}
+              onChange={(e) => setSellingPrice(e.target.value)}
             />
             <button
               className="h-[80%] text-white bg-neutral-800 border-2 border-cyan-600 hover:bg-cyan-600 
           font-medium rounded-3xl text-xs px-5 py-2.5 focus:bg-cyan-600 ml-[6%] mt-5"
               type="button"
               onClick={() => {
+                handleSubmitChartData();
               }}
             >
               Add Data
             </button>
             <button
               type="button"
-              className="h-[80%] text-white bg-neutral-800 border-2 border-red-600 hover:bg-red-700 
-          font-medium rounded-3xl text-xs px-5 py-2.5 focus:bg-cyan-600 ml-[25%] mt-5"
-              // onClick={handleClose}
+              className="h-[80%] text-white bg-neutral-800 border-2 border-red-800 hover:bg-red-800 
+          font-medium rounded-3xl text-xs px-5 py-2.5 focus:bg-red-800 ml-[25%] mt-5"
+              onClick={handleLineChartDataClose}
             >
               Cancel
             </button>
@@ -68,7 +99,7 @@ const LineChartForm: React.FC<LineChartFormProps> = ({ handleLineChartDataClose,
         </DialogContent>
       </Dialog>
     </div>
-  )
-}
+  );
+};
 
-export default LineChartForm
+export default LineChartForm;
