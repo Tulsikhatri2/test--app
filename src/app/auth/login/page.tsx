@@ -106,6 +106,7 @@ const Login = () => {
                 >
                   Login
                 </button>
+               
                 {/* {
                   isLoading?
                   <Loading/>:
@@ -114,7 +115,9 @@ const Login = () => {
               </form>
             )}
           </Formik>
-          <p className="mt-20 text-center">
+          <p className="mt-16 text-center text-xs text-gray-300">Admin email : admin@gmail.com</p>
+          <p className="text-xs text-gray-300">Admin password : 123456</p>
+          <p className="mt-10">
             <span className="text-white">Not a user?</span>
             <span
               className="text-pink-400 cursor-pointer underline"

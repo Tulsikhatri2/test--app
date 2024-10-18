@@ -38,7 +38,9 @@ const Register = () => {
 
   const handleEmailVerification = () => {
     router.push("/auth/login");
-    toast.success("Email Verified!..Login as admin")
+    toast.success("Email Verified!..Login as admin", {
+      style: { fontFamily: "monospace" },
+    });
   };
 
   const handleSubmit = (
@@ -46,31 +48,31 @@ const Register = () => {
     { setSubmitting }: FormikHelpers<Values>
   ) => {
     toast(
-            (t) => (
-              <span style={{ width: "30vw" }} className="font-mono">
-                <b>Verify your email to complete registration process</b>
-                <br />
-                <button
-                  className="dismissButton "
-                  onClick={() => toast.dismiss(t.id)}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="verifyButton hover:shadow-black hover:shadow-md"
-                  onClick={() => {
-                    handleEmailVerification();
-                    toast.dismiss(t.id);
-                  }}
-                >
-                  Verify
-                </button>
-              </span>
-            ),
-            {
-              duration: 15000,
-            }
-          );
+      (t) => (
+        <span style={{ fontFamily:"monospace" }}>
+          <b>Verify your email to complete<br/> registration process</b>
+          <br />
+          <button
+            className="dismissButton hover:shadow-black hover:shadow-sm"
+            onClick={() => toast.dismiss(t.id)}
+          >
+            Cancel
+          </button>
+          <button
+            className="verifyButton hover:shadow-black hover:shadow-sm"
+            onClick={() => {
+              handleEmailVerification();
+              toast.dismiss(t.id);
+            }}
+          >
+            Verify
+          </button>
+        </span>
+      ),
+      {
+        duration: 15000,
+      }
+    );
     setSubmitting(false);
   };
 
