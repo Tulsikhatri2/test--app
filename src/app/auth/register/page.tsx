@@ -7,7 +7,6 @@ import { ErrorMessage, Field, Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-// import Loading from "@/app/components/loader/loading";
 
 interface Values {
   name: string;
@@ -145,7 +144,6 @@ const Register = () => {
                   >
                     Register
                   </button>
-                  {/* {isLoading ? <Loading /> : <p></p>} */}
                 </form>
               )}
             </Formik>

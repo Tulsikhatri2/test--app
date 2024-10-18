@@ -26,7 +26,6 @@ ChartJS.register(
 const LineChart = () => {
   const { lineChart} = useSelector((state: AppStore) => state.graph);
   const labels = lineChart.map((data) => parseInt(data.productID));
-  // const margins = lineChart.map((data) => parseInt(data.margin));
   const costPrice = lineChart.map((data)=>parseInt(data.costPrice));
   const sellingPrice = lineChart.map((data)=>parseInt(data.sellingPrice))
 

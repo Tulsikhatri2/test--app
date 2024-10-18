@@ -6,7 +6,6 @@
     --uib-speed: 0.9s;
     height: 2.8rem;
     width: 2.8rem;
-    /*animation: float 3s linear infinite;*/
   }
   
   @keyframes float {
