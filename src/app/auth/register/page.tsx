@@ -51,10 +51,10 @@ const Register = () => {
                 <b>Verify your email to complete registration process</b>
                 <br />
                 <button
-                  className="dismissButton  "
+                  className="dismissButton "
                   onClick={() => toast.dismiss(t.id)}
                 >
-                  Dismiss
+                  Cancel
                 </button>
                 <button
                   className="verifyButton hover:shadow-black hover:shadow-md"
