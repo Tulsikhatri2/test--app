@@ -32,17 +32,15 @@ const Login = () => {
     values: Values,
     { setSubmitting }: FormikHelpers<Values>
   ) => {
-    if(values.email == "admin@gmail.com" && values.password == "123456" ){
+    if (values.email == "admin@gmail.com" && values.password == "123456") {
       const random = Math.random().toString(36).substring(2);
-      localStorage.setItem("token", random + random + random + random)
-      toast.success("Logged in!")
-      router.push("/dashboard")
-    }
-    else{
-      toast.error("Invalid username or password")
+      localStorage.setItem("token", random + random + random + random);
+      router.push("/dashboard");
+      toast.success("Logged in!");
+    } else {
+      toast.error("Invalid username or password");
     }
     setSubmitting(false);
-   
   };
 
   const values: Values = {
@@ -106,7 +104,7 @@ const Login = () => {
                 >
                   Login
                 </button>
-               
+
                 {/* {
                   isLoading?
                   <Loading/>:
@@ -115,7 +113,9 @@ const Login = () => {
               </form>
             )}
           </Formik>
-          <p className="mt-16 text-center text-xs text-gray-300">Admin email : admin@gmail.com</p>
+          <p className="mt-16 text-center text-xs text-gray-300">
+            Admin email : admin@gmail.com
+          </p>
           <p className="text-xs text-gray-300">Admin password : 123456</p>
           <p className="mt-10">
             <span className="text-white">Not a user?</span>
@@ -133,5 +133,3 @@ const Login = () => {
 };
 
 export default Login;
-
-
